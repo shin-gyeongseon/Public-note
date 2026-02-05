@@ -1,0 +1,38 @@
+너는 클라우드/쿠버네티스 아키텍처 설계자다.
+내가 만들려는 managed service 아키텍처를 Mermaid로 다이어그램화해라.
+다이어그램은 “배포 단위(Helm Release) → 네트워크 경계 → 데이터 경계(PG 멀티테넌시)”가 한 눈에 보이도록 구성하라.
+
+[배경/목표]
+- 서비스: Langflow, Arize Phoenix 를 managed service 형태로 제공하려고 한다.
+- 배포 도구: Helm
+- 각 서비스는 독립적으로 업그레이드/롤백 가능해야 하므로 Helm Release 단위를 분리한다.
+- 외부 DB(PostgreSQL, 이하 PG)를 사용한다.
+- Secret/DB 접속정보 관리를 고려한다(기본은 K8s Secret, 필요시 ExternalSecrets/Vault 같은 외부 Secret Store도 옵션으로 표현).
+- 하나의 PG를 사용하되 테넌트를 논리적으로 분리해서 관리한다. (기본안: Schema-per-tenant)
+- 테넌트별 격리를 위해 Kubernetes namespace 를 테넌트별로 분리하는 구조를 기본으로 한다.
+- platform namespace 에 공용 인프라(ingress/gateway, cert-manager, external-secrets-operator 등)를 둔다.
+- tenant namespace 에 Langflow Release, Phoenix Release 를 배치한다.
+- Ingress/Gateway를 통해 외부 사용자가 Langflow/Phoenix에 접근한다.
+- 각 Release는 Secret(또는 ExternalSecret)을 통해 PG에 연결한다.
+- PG 내부는 schema tenant_a / schema tenant_b 로 분리되어 있음을 다이어그램에서 명확히 보여라(연결 라벨에 schema를 표시).
+- Operator/CI(Helm) 가 각 Release에 배포/업데이트하는 흐름을 점선으로 표현하라.
+
+[출력 요구]
+1) Mermaid 다이어그램은 2개를 만들어라.
+   A. 상위 아키텍처(overview) : Clients / Kubernetes Cluster / External Managed 3영역이 보이게.
+   B. 테넌트 내부 상세(tenant-a 예시) : Langflow Release, Phoenix Release 내부 최소 컴포넌트(Deployment, Service, ConfigMap, Secret)를 간단히 표시.
+2) Mermaid는 `flowchart LR` 또는 `flowchart TB` 를 사용하라.
+3) 도형/그룹은 Mermaid `subgraph` 로 영역을 구분하라.
+4) 연결선 라벨을 반드시 포함하라:
+   - “Helm deploy/upgrade” (점선)
+   - “HTTPS”
+   - “DB creds (Secret)”
+   - “schema=tenant_a” / “schema=tenant_b”
+5) 외부 Secret Store와 Object Storage는 “옵션”으로 표현하되, 다이어그램에서 optional 이라는 라벨을 달아라.
+6) 다이어그램 아래에 아주 짧게(불릿 5개 이하) 설계 의도를 요약하라.
+
+[주의]
+- 실제 제품 세부 기능/정확한 포트번호는 가정하지 말고 일반화하라.
+- 과도한 컴포넌트 나열은 피하고, managed service 관점의 핵심 경계(테넌트/배포/데이터/보안)가 강조되게 하라.
+
+이제 위 요구사항대로 Mermaid 코드만 출력해라. (설명은 마지막 5개 불릿 요약만 허용)
