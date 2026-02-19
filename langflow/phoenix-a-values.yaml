@@ -1,0 +1,245 @@
+USER-SUPPLIED VALUES:
+additionalEnv: []
+auth:
+  accessTokenExpiryMinutes: 60
+  admins: ""
+  allowedOrigins: []
+  cookiesPath: /
+  createSecret: true
+  csrfTrustedOrigins: []
+  defaultAdminPassword: admin
+  disableBasicAuth: false
+  enableAuth: true
+  ldap:
+    allowSignUp: true
+    attrDisplayName: displayName
+    attrEmail: mail
+    attrMemberOf: memberOf
+    attrUniqueId: ""
+    bindDn: ""
+    bindPassword: ""
+    enabled: false
+    groupRoleMappings: '[]'
+    groupSearchBaseDns: []
+    groupSearchFilter: ""
+    groupSearchFilterUserAttr: ""
+    host: ""
+    port: ""
+    tlsCaCertFile: ""
+    tlsClientCertFile: ""
+    tlsClientKeyFile: ""
+    tlsMode: starttls
+    tlsVerify: true
+    userSearchBaseDns: []
+    userSearchFilter: (&(objectClass=user)(sAMAccountName=%s))
+  name: phoenix-secret
+  oauth2:
+    enabled: false
+    providers: null
+  passwordResetTokenExpiryMinutes: 60
+  refreshTokenExpiryMinutes: 43200
+  secret:
+  - key: PHOENIX_SECRET
+    value: ""
+  - key: PHOENIX_ADMIN_SECRET
+    value: ""
+  - key: PHOENIX_POSTGRES_PASSWORD
+    value: langflow-pass
+  - key: PHOENIX_SMTP_PASSWORD
+    value: ""
+  - key: PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD
+    value: ""
+  useSecureCookies: false
+database:
+  allocatedStorageGiB: 20
+  defaultRetentionPolicyDays: 0
+  postgres:
+    awsIamTokenLifetimeSeconds: 840
+    db: phoenix_a
+    host: langflow-postgres-postgresql.langflow-dev.svc.cluster.local
+    password: langflow-pass
+    port: 5432
+    schema: temporary_a
+    useAwsIamAuth: false
+    user: langflow
+  url: ""
+deployment:
+  affinity: {}
+  nodeSelector: {}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  tolerations: []
+extraVolumeMounts: []
+extraVolumes: []
+healthChecks:
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 5
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 0
+    periodSeconds: 5
+    successThreshold: 1
+    timeoutSeconds: 3
+  startupProbe:
+    enabled: true
+    failureThreshold: 30
+    initialDelaySeconds: 1
+    periodSeconds: 1
+    successThreshold: 1
+    timeoutSeconds: 1
+image:
+  pullPolicy: IfNotPresent
+  registry: docker.io
+  repository: arizephoenix/phoenix
+  tag: version-12.35.0-nonroot
+ingress:
+  annotations: {}
+  apiPath: /
+  enabled: true
+  host: ""
+  labels: {}
+  pathType: Prefix
+  tls:
+    enabled: false
+instrumentation:
+  otlpTraceCollectorGrpcEndpoint: ""
+  otlpTraceCollectorHttpEndpoint: ""
+logging:
+  dbLevel: warning
+  level: info
+  logMigrations: true
+  mode: default
+persistence:
+  accessModes:
+  - ReadWriteOnce
+  annotations: {}
+  enabled: false
+  inMemory: false
+  labels: {}
+  size: 20Gi
+  storageClass: ""
+postgresql:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: postgres
+    tag: "16"
+  podSecurityContext:
+    fsGroup: 999
+    supplementalGroups:
+    - 999
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  securityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsGroup: 999
+    runAsNonRoot: true
+    runAsUser: 999
+  service:
+    port: 5432
+    type: ClusterIP
+  settings:
+    superuserPassword:
+      value: postgres
+  storage:
+    accessModes:
+    - ReadWriteOnce
+    requestedSize: 20Gi
+  userDatabase:
+    name:
+      value: phoenix
+    password:
+      value: phoenix
+    user:
+      value: phoenix
+replicaCount: 1
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+securityContext:
+  container:
+    allowPrivilegeEscalation: false
+    capabilities:
+      add: []
+      drop:
+      - ALL
+    enabled: false
+    privileged: false
+    procMount: Default
+    readOnlyRootFilesystem: true
+    runAsGroup: 65532
+    runAsNonRoot: true
+    runAsUser: 65532
+    seLinuxOptions: {}
+    seccompProfile:
+      type: RuntimeDefault
+    windowsOptions: {}
+  pod:
+    enabled: false
+    fsGroup: 65532
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65532
+    runAsNonRoot: true
+    runAsUser: 65532
+    seLinuxOptions: {}
+    seccompProfile:
+      type: RuntimeDefault
+    supplementalGroups: []
+    sysctls: []
+    windowsOptions: {}
+server:
+  allowExternalResources: true
+  annotations: {}
+  enablePrometheus: false
+  grpcPort: 4317
+  host: '::'
+  hostRootPath: ""
+  labels: {}
+  maxSpansQueueSize: 20000
+  port: 6006
+  rootUrl: ""
+  telemetryEnabled: true
+  workingDir: /data
+service:
+  annotations: {}
+  labels: {}
+  type: NodePort
+serviceAccount:
+  annotations: {}
+  create: false
+  imagePullSecrets: []
+  name: ""
+smtp:
+  hostname: ""
+  mailFrom: noreply@arize.com
+  password: ""
+  port: 587
+  username: ""
+  validateCerts: true
+tls:
+  caFile: ""
+  certFile: ""
+  enabled: false
+  enabledForGrpc: false
+  enabledForHttp: false
+  keyFile: ""
+  keyFilePassword: ""
+  verifyClient: false

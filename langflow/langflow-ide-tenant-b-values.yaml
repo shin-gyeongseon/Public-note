@@ -1,0 +1,174 @@
+USER-SUPPLIED VALUES:
+USER-SUPPLIED VALUES: null
+fullnameOverride: langflow-service-b
+imagePullSecrets: []
+ingress:
+  annotations: {}
+  enabled: false
+  hosts:
+  - host: chart-example.local
+    paths: []
+  tls: []
+langflow:
+  backend:
+    affinity: {}
+    backendOnly: true
+    command:
+    - python
+    - -m
+    - langflow
+    - run
+    - --host
+    - 0.0.0.0
+    - --backend-only
+    env:
+    - name: LANGFLOW_PORT
+      value: "7860"
+    - name: LANGFLOW_ALEMBIC_LOG_FILE
+      value: /app/db/alembic.log
+    - name: LANGFLOW_UPDATE_STARTER_PROJECTS
+      value: "false"
+    - name: PHOENIX_API_KEY
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJBcGlLZXk6MSJ9.CGtAQeYTAr70Pk-cggfOvuZRgPg2v_jtHoilz-fwj3g
+    - name: PHOENIX_COLLECTOR_ENDPOINT
+      value: http://phoenix-a-svc.phoenix-dev.svc.cluster.local:6006
+    - name: LANGFLOW_TRACING
+      value: "true"
+    - name: OTEL_EXPORTER_OTLP_PROTOCOL
+      value: http/protobuf
+    externalDatabase:
+      database:
+        value: langflow_db_b
+      driver:
+        value: postgresql
+      enabled: true
+      host:
+        value: langflow-postgres-postgresql.langflow-dev.svc.cluster.local
+      password:
+        value: langflow-pass
+      port:
+        value: "5432"
+      user:
+        value: langflow
+    image:
+      imagePullPolicy: IfNotPresent
+      repository: langflowai/langflow
+      tag: latest
+    nodeSelector: {}
+    numWorkers: 1
+    podAnnotations:
+      prometheus.io/path: /metrics
+      prometheus.io/port: 9090
+      prometheus.io/scrape: "true"
+    podSecurityContext:
+      fsGroup: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+    probe:
+      failureThreshold: 3
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 0.5
+        memory: 1Gi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+    service:
+      port: 7860
+      type: ClusterIP
+    sqlite:
+      enabled: false
+      volume:
+        existingStorageClassName: default
+        size: 1Gi
+        storageClass: {}
+    tolerations: []
+    volumeMounts:
+    - mountPath: /app/flows
+      name: flows
+      readOnly: false
+    - mountPath: /tmp
+      name: tmp
+      readOnly: false
+    - mountPath: /app/data
+      name: data
+      readOnly: false
+    - mountPath: /app/db
+      name: db
+      readOnly: false
+    volumes:
+    - emptyDir: {}
+      name: flows
+    - emptyDir: {}
+      name: tmp
+    - emptyDir: {}
+      name: data
+    - emptyDir: {}
+      name: db
+  frontend:
+    affinity: {}
+    enabled: true
+    image:
+      imagePullPolicy: IfNotPresent
+      repository: langflowai/langflow-frontend
+      tag: latest
+    nodeSelector: {}
+    podAnnotations: {}
+    probe:
+      failureThreshold: 3
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 0.3
+        memory: 512Mi
+    service:
+      port: 8080
+      type: ClusterIP
+    tolerations: []
+    volumeMounts:
+    - mountPath: /tmp
+      name: tmp
+      readOnly: false
+    volumes:
+    - emptyDir: {}
+      name: tmp
+  global:
+    image:
+      tag: latest
+nameOverride: langflow-service-b
+podSecurityContext:
+  fsGroup: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+postgresql:
+  enabled: false
+secretProvider:
+  enabled: false
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
