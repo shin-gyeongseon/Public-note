@@ -1,0 +1,43 @@
+apiVersion: v2
+appVersion: 12.35.0
+dependencies:
+- alias: postgresql
+  condition: postgresql.enabled
+  name: postgres
+  repository: https://groundhog2k.github.io/helm-charts/
+  version: 1.5.8
+description: 'Phoenix is an open-source AI observability platform designed for experimentation,
+  evaluation, and troubleshooting. For instructions on how to deploy this Helm chart,
+  see the [self-hosting docs](https://arize.com/docs/phoenix/self-hosting).   - [**_Tracing_**](https://arize.com/docs/phoenix/tracing/llm-traces)
+  - Trace your LLM application''s runtime using OpenTelemetry-based instrumentation.   -
+  [**_Evaluation_**](https://arize.com/docs/phoenix/evaluation/llm-evals) - Leverage
+  LLMs to benchmark your application''s performance using response and retrieval evals.   -
+  [**_Datasets_**](https://arize.com/docs/phoenix/datasets-and-experiments/overview-datasets)
+  - Create versioned datasets of examples for experimentation, evaluation, and fine-tuning.   -
+  [**_Experiments_**](https://arize.com/docs/phoenix/datasets-and-experiments/overview-datasets#experiments)
+  - Track and evaluate changes to prompts, LLMs, and retrieval.   - [**_Playground_**](https://arize.com/docs/phoenix/prompt-engineering/overview-prompts)-
+  Optimize prompts, compare models, adjust parameters, and replay traced LLM calls.   -
+  [**_Prompt Management_**](https://arize.com/docs/phoenix/prompt-engineering/overview-prompts/prompt-management)-
+  Manage and test prompt changes systematically using version control, tagging, and
+  experimentation. '
+home: https://phoenix.arize.com/
+icon: https://phoenix.arize.com/wp-content/uploads/2025/04/logo-with-arize.svg
+keywords:
+- arize
+- evals
+- tracing
+- otel
+- phoenix
+- llm
+- observability
+- prompt management
+- metrics
+maintainers:
+- email: phoenix-devs@arize.com
+  name: arize
+  url: https://phoenix.arize.com/
+name: phoenix-helm
+sources:
+- https://github.com/Arize-ai/phoenix
+type: application
+version: 4.0.37

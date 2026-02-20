@@ -1,0 +1,28 @@
+commonLabels:
+  env: "production"
+  billing-id: "12345"
+  project: "langflow"
+  
+postgresql:
+  enabled: false
+
+database:
+  postgres:
+    db: phoenix_a
+    host: langflow-postgres-postgresql.langflow-dev.svc.cluster.local
+    password: langflow-pass
+    schema: temporary_a
+    user: langflow
+
+auth:
+  secret:
+  - key: PHOENIX_SECRET
+    value: ''
+  - key: PHOENIX_ADMIN_SECRET
+    value: ''
+  - key: PHOENIX_POSTGRES_PASSWORD
+    value: langflow-pass
+  - key: PHOENIX_SMTP_PASSWORD
+    value: ''
+  - key: PHOENIX_DEFAULT_ADMIN_INITIAL_PASSWORD
+    value: ''
